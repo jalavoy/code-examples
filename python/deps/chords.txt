@@ -1,0 +1,14 @@
+C# C# D#m E#m F# G# A#m
+F# F# G#m A#m B C# D#m
+B B C#m D#m E F# G#m
+E E F#m G#m A B C#m
+A A Bm C#m D E F#m
+D D Em F#m G A Bm
+G G Am Bm C D Em
+C C Dm Em F G Am
+F F Gm Am Bb C Dm
+Bb Bb Cm Dm Eb F Gm
+Eb Eb Gm Ab Bb Cm
+Ab Ab Bbm Cm Db Eb Fm
+Db Db Ebm Fm Gb Ab Bbm
+Gb Gb Abm Bbm Cb Db Ebm
