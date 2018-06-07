@@ -5,7 +5,7 @@ import sys
 import random
 import re
 
-# globals for randomness and our statistics struct (there aren't constants, python doesn't have constants)
+# globals for randomness and our statistics struct
 MIN = 1
 MAX = 100
 STATS = {
@@ -15,8 +15,6 @@ STATS = {
 }
 
 def main():
-    # our sweet haiku
-    print("it's not dns\nit cannot be dns\nit was dns")
     # main game loop -- run until the player says otherwise
     while True:
         # run game, passing STATS struct
