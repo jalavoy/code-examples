@@ -14,12 +14,13 @@ import (
 	"strings"
 )
 
+// Target keeping track of our target
 type Target struct {
-	word           string
-	pronunciation  []string
-	primary_stress string
-	stress_index   int
-	rhymes         []string
+	word          string
+	pronunciation []string
+	primaryStress string
+	stressIndex   int
+	rhymes        []string
 }
 
 // declare our target
@@ -78,8 +79,8 @@ func getTarget(target *Target, words *map[string][][]string) error {
 	target.checkValid(&(*words))
 
 	// find our primary stress and it's index
-	target.stress_index, target.primary_stress = getStress(target.pronunciation)
-	if target.stress_index == -1 {
+	target.stressIndex, target.primaryStress = getStress(target.pronunciation)
+	if target.stressIndex == -1 {
 		panic("[!] Unable to determine the primary stress for your target")
 	}
 
@@ -134,7 +135,7 @@ func checkDoubles(p [][]string) []string {
 			fmt.Println("[!] Input out of range, please try again")
 			continue
 		}
-		x -= 1
+		x--
 		a = p[x]
 		break
 	}
@@ -171,29 +172,29 @@ func findRhymes(target *Target, words *map[string][][]string) error {
 func checkConditions(target *Target, phonemes []string) bool {
 	index, stress := getStress(phonemes)
 	// if the primary stresses do not match - condition 1
-	if target.primary_stress != stress {
+	if target.primaryStress != stress {
 		return false
 	}
 	// if the subsequent phoneme length is different - condition 1
-	if (len(target.pronunciation) - target.stress_index) != (len(phonemes) - index) {
+	if (len(target.pronunciation) - target.stressIndex) != (len(phonemes) - index) {
 		return false
 	}
 	// if the subsequent sounds do not match - condition 1
-	for i := 0; i < (len(target.pronunciation) - target.stress_index); i++ {
-		if target.pronunciation[target.stress_index+i] != phonemes[index+i] {
+	for i := 0; i < (len(target.pronunciation) - target.stressIndex); i++ {
+		if target.pronunciation[target.stressIndex+i] != phonemes[index+i] {
 			return false
 		}
 	}
 	// if the stress is the start of the word - condition 2
-	if target.stress_index == 0 && index == 0 {
+	if target.stressIndex == 0 && index == 0 {
 		return false
 	}
 	// if the stress is at the beginning of the word and not the other
-	if (target.stress_index == 0 && index != 0) || (target.stress_index != 0 && index == 0) {
+	if (target.stressIndex == 0 && index != 0) || (target.stressIndex != 0 && index == 0) {
 		return true
 	}
 	// if the proceeding phoneme matches - condition 2
-	if target.pronunciation[target.stress_index-1] != phonemes[index-1] {
+	if target.pronunciation[target.stressIndex-1] != phonemes[index-1] {
 		return true
 	}
 	return false
