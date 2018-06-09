@@ -1,7 +1,6 @@
-package main
-
 // jalavoy - 06.08.2018
 // this is a generic data collection and retrieval API to a MySQL database
+package main
 
 import (
 	"context"
