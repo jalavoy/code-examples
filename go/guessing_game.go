@@ -12,7 +12,7 @@ import "strings"
 import "sort"
 import "regexp"
 
-// stats struct
+// Stats struct
 type Stats struct {
 	games   int
 	guesses int
