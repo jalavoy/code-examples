@@ -1,6 +1,6 @@
 // jalavoy 06.10.2018
 // this program reads 48 years of historical weather data from the NCDC/NOAA and calculates averages per day
-//	output looks something like this:
+// output looks something like this:
 /*
 	January/1 - Chance of Snow: 15%, Chance of Rain: 11%, High Temp: 17 F, Low Temp: 4 F, Average Temperature: 11 F
 	January/2 - Chance of Snow: 13%, Chance of Rain: 14%, High Temp: 17 F, Low Temp: 5 F, Average Temperature: 11 F
