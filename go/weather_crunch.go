@@ -1,5 +1,17 @@
 // jalavoy 06.10.2018
 // this program reads 48 years of historical weather data from the NCDC/NOAA and calculates averages per day
+/*
+	output looks something like this:
+	January/1 - Chance of Snow: 15%, Chance of Rain: 11%, High Temp: 17 F, Low Temp: 4 F, Average Temperature: 11 F
+	January/2 - Chance of Snow: 13%, Chance of Rain: 14%, High Temp: 17 F, Low Temp: 5 F, Average Temperature: 11 F
+	January/3 - Chance of Snow: 10%, Chance of Rain: 11%, High Temp: 20 F, Low Temp: 6 F, Average Temperature: 13 F
+	January/4 - Chance of Snow: 24%, Chance of Rain: 20%, High Temp: 19 F, Low Temp: 5 F, Average Temperature: 12 F
+	January/5 - Chance of Snow: 32%, Chance of Rain: 29%, High Temp: 19 F, Low Temp: 4 F, Average Temperature: 12 F
+	January/6 - Chance of Snow: 28%, Chance of Rain: 26%, High Temp: 20 F, Low Temp: 5 F, Average Temperature: 12 F
+	January/7 - Chance of Snow: 6%, Chance of Rain: 6%, High Temp: 20 F, Low Temp: 5 F, Average Temperature: 13 F
+	January/8 - Chance of Snow: 23%, Chance of Rain: 21%, High Temp: 20 F, Low Temp: 6 F, Average Temperature: 13 F
+	January/9 - Chance of Snow: 10%, Chance of Rain: 6%, High Temp: 21 F, Low Temp: 7 F, Average Temperature: 14 F
+*/
 package main
 
 import (
@@ -16,7 +28,7 @@ import (
 
 const csvFile string = "deps/weather.csv"
 
-// Months ints to names
+// Months ints to names - there's probably a better way to do this with the time module
 var Months = [12]string{
 	"January",
 	"Febuary",
@@ -32,7 +44,7 @@ var Months = [12]string{
 	"December",
 }
 
-// WeatherDay holds the weather information for a particular day in time
+// WeatherDay holds the total weather information for a particular month and day (excluding year)
 type WeatherDay struct {
 	snow     []float64
 	rain     []float64
@@ -47,6 +59,7 @@ func main() {
 	outputData(data)
 }
 
+// imports our data from our csv
 func getCSV() [][]string {
 	fh, err := os.Open(csvFile)
 	if err != nil {
@@ -57,9 +70,10 @@ func getCSV() [][]string {
 	return rawdata
 }
 
+// parses our CSV data and puts it into a more managable format
 func parseData(rawdata [][]string) map[int]map[int]WeatherDay {
 	data := make(map[int]map[int]WeatherDay)
-	// initialize inner loop - there's probably a better way to do this
+	// initialize inner map - there's probably a better way to do this
 	for i := 1; i <= 12; i++ {
 		data[i] = make(map[int]WeatherDay)
 	}
@@ -80,6 +94,7 @@ func parseData(rawdata [][]string) map[int]map[int]WeatherDay {
 	return data
 }
 
+// does the final averaging and outputs our data
 func outputData(data map[int]map[int]WeatherDay) {
 	for _, month := range sortKeys(data) {
 		for _, day := range sortKeys(data[month]) {
@@ -94,6 +109,7 @@ func outputData(data map[int]map[int]WeatherDay) {
 	}
 }
 
+// converts the date into month/day as ints - go has the coolest date parsing i've ever seen
 func parseDate(date string) (int, int) {
 	// Mon Jan 2 15:04:05 -0700 MST 2006
 	time, err := time.Parse("2006-01-02", date)
@@ -103,6 +119,7 @@ func parseDate(date string) (int, int) {
 	return int(time.Month()), int(time.Day())
 }
 
+// calculates averages between N number of ints
 func getAverageInt(inputs ...int) int {
 	var total int
 	var i int
@@ -114,6 +131,7 @@ func getAverageInt(inputs ...int) int {
 	return avg
 }
 
+// calculates averages between N number of floats
 func getAverageFloat(inputs ...float64) float64 {
 	var total float64
 	var i int
@@ -151,6 +169,7 @@ func (w *WeatherDay) appendTemp(max string, min string) {
 	w.avgtemp = append(w.avgtemp, getAverageInt(maxInt, minInt))
 }
 
+// sorts map keys by int
 func sortKeys(m interface{}) []int {
 	var l []int
 	keys := reflect.ValueOf(m).MapKeys()
