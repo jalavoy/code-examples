@@ -45,7 +45,6 @@ func main() {
 	rawdata := getCSV()
 	data := parseData(rawdata)
 	outputData(data)
-	//spew.Dump(data)
 }
 
 func getCSV() [][]string {
