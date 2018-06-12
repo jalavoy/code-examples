@@ -94,20 +94,16 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 			ON servers.id = ip_addresses.server_id`
 	if r.FormValue("domain") != "" {
 		query = fmt.Sprintf("%s WHERE domains.domain_name = '%s'", query, r.FormValue("domain"))
-		goto OUT
-	}
-	if r.FormValue("ip") != "" {
+	} else if r.FormValue("ip") != "" {
 		query = fmt.Sprintf("%s WHERE servers.primary_ip = INET_ATON(%s)", query, r.FormValue("ip"))
-		goto OUT
-	}
-	if r.FormValue("server") != "" {
+	} else if r.FormValue("server") != "" {
 		query = fmt.Sprintf("%s WHERE servers.hostname = '%s'", query, r.FormValue("server"))
-		goto OUT
+	} else {
+		// else no input specified
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
-	// else no input specified
-	w.WriteHeader(http.StatusBadRequest)
-	return
-OUT:
+
 	db, err := connectDB()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
