@@ -26,7 +26,7 @@ import (
 	"strings"
 )
 
-const inputFile string = "/Users/jlavoy/git/code-examples/go/deps/2015-16.txt"
+const inputFile string = "deps/2015-16.txt"
 
 // Team object
 type Team struct {
