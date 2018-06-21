@@ -90,7 +90,7 @@ func main() {
 	// output the top 10
 	for i, c := range cs.best() {
 		fmt.Printf("%d) %s : %f\n", i+1, c.name(), c.winRatioAvg())
-		if i > 10 {
+		if (i + 1) == 10 {
 			break
 		}
 	}
