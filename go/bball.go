@@ -26,8 +26,6 @@ import (
 	"strings"
 )
 
-const inputFile string = "deps/2015-16.txt"
-
 // Team object
 type Team struct {
 	Name       string
@@ -56,6 +54,7 @@ func (c byWinRatio) Swap(i, j int)      { c[i], c[j] = c[j], c[i] }
 func (c byWinRatio) Less(i, j int) bool { return c[i].winRatioAvg() > c[j].winRatioAvg() }
 
 func main() {
+	inputFile := checkInput()
 	fh, err := os.Open(inputFile)
 	if err != nil {
 		log.Panic("Unable to open input file")
@@ -96,6 +95,22 @@ func main() {
 		}
 	}
 
+}
+
+func checkInput() string {
+	if len(os.Args) < 2 {
+		usage()
+	}
+	if _, err := os.Stat(os.Args[1]); os.IsNotExist(err) {
+		fmt.Println("Specified input file does not exist")
+		usage()
+	}
+	return os.Args[1]
+}
+
+func usage() {
+	fmt.Println("[!] Usage:", os.Args[0], "<data file>")
+	os.Exit(1)
 }
 
 // Team methods

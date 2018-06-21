@@ -41,7 +41,7 @@ func main() {
 
 // checkInput checks our input to make sure it's what we want
 func checkInput() (string, string) {
-	if len(os.Args) < 2 {
+	if len(os.Args) < 3 {
 		usage()
 	}
 	if _, err := os.Stat(os.Args[1]); os.IsNotExist(err) {
