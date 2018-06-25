@@ -164,6 +164,9 @@ func (w *WeatherDay) appendRain(rain string) {
 func (w *WeatherDay) appendTemp(max string, min string) {
 	maxInt, _ := strconv.Atoi(max)
 	minInt, _ := strconv.Atoi(min)
+	// convert from C to F
+	maxInt = (maxInt * 9 / 5 + 32)
+	minInt = (minInt * 9 / 5 + 32)
 	w.hightemp = append(w.hightemp, maxInt)
 	w.lowtemp = append(w.lowtemp, minInt)
 	w.avgtemp = append(w.avgtemp, getAverageInt(maxInt, minInt))
